@@ -107,11 +107,11 @@ public class Stat {
     //    Correlation is always b/w -1(perfect anti correlation) and 1(perfect correlation) and is unitless
     public static <T extends Number> double correlation(List<T> x, List<T> y) {
         double stdX = stdDeviation(x);
-        double stdy = stdDeviation(y);
-        if(stdX == 0 || stdy == 0) {
+        double stdY = stdDeviation(y);
+        if(stdX == 0 || stdY == 0) {
             return 0;
         }
-        return covariance(x, y) / stdX / stdy;
+        return covariance(x, y) / stdX / stdY;
     }
 
 }
