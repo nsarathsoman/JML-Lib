@@ -74,6 +74,19 @@ public class Vectors {
                 .orElse(0d);
     }
 
+    public static double dot(double x[], double  y[]) {
+        int size = x.length;
+
+        if(y.length != size) {
+            throw new RuntimeException("x and y should be of equal length");
+        }
+
+        return IntStream.range(0, size)
+                .mapToDouble(i -> x[i] * y[i])
+                .reduce((x1, x2) -> x1 + x2)
+                .orElse(0d);
+    }
+
     public static <T extends Number> double sumOfSquares(List<T> x) {
 
         return x.stream()

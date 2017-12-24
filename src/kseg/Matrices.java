@@ -59,4 +59,8 @@ public class Matrices {
                 .collect(Collectors.toList());
     }
 
+    @FunctionalInterface
+    public static interface MatrixElementSupplier<T> {
+        T getElement(int i, int j);
+    }
 }
