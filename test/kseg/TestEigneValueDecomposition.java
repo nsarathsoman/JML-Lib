@@ -38,5 +38,17 @@ public class TestEigneValueDecomposition {
         valueVector.getLeft().dumpToConsole();
         System.out.println();
         valueVector.getRight().dumpToConsole();
+
+        System.out.println("------EVD III------");
+        symetricMatrix = new double[][]{
+                {3, 2, 4},
+                {2, 0, 2},
+                {4, 2, 3}
+        };
+        matrix = new Matrix(symetricMatrix);
+        valueVector = matrix.evd();
+        valueVector.getLeft().dumpToConsole();
+        System.out.println();
+        valueVector.getRight().dumpToConsole();
     }
 }

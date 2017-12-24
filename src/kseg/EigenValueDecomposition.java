@@ -18,7 +18,8 @@ public class EigenValueDecomposition {
             } else if (aik < 0) {
                 return -Math.PI / 4;
             }
-            throw new RuntimeException("aik = 0, not supported");
+            return 0;
+//            throw new RuntimeException("aik = 0, not supported");
         } else {
 //            if (aii == akk) {
 //                return Math.PI / 4;
@@ -53,16 +54,16 @@ public class EigenValueDecomposition {
             System.out.println();
         }
 
-        Matrix eigenMatrix = rotationMatrices.pop();
+        Matrix eigenVectors = rotationMatrices.pop();
 
         while (!rotationMatrices.empty()) {
-            eigenMatrix = rotationMatrices.pop().multiply(eigenMatrix);
+            eigenVectors = rotationMatrices.pop().multiply(eigenVectors);
         }
 
         b = roundOff(b);
-        eigenMatrix = roundOff(eigenMatrix);
+        eigenVectors = roundOff(eigenVectors);
 
-        return new Pair<>(b, eigenMatrix);
+        return new Pair<>(b, eigenVectors);
 
     }
 

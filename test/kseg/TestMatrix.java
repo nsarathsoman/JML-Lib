@@ -69,5 +69,9 @@ public class TestMatrix {
         matrix = new Matrix(symetricMatrix).transpose();
         matrix.dumpToConsole();
 
+        System.out.println("------Scalar Multiply------");
+        matrix = new Matrix(symetricMatrix).scalarMultiply(0.5);
+        matrix.dumpToConsole();
+
     }
 }

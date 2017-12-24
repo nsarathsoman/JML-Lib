@@ -151,6 +151,21 @@ public class Matrix {
         return new EigenValueDecomposition().evd(this);
     }
 
+    public Triplet<Matrix, Matrix, Matrix> svd() {
+        return new SingularValueDecomposition().svd(this);
+    }
+
+    public Matrix scalarMultiply(double scalar) {
+        double m[][] = new double[r][c];
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                m[i][j] = getElement(i, j) * scalar;
+            }
+        }
+
+        return new Matrix(m);
+    }
+
     public void dumpToConsole() {
         for (int i = 0; i < r; i++) {
             for (int j = 0; j < c; j++) {
@@ -187,4 +202,5 @@ public class Matrix {
 
         return new Matrix(elem);
     }
+
 }
