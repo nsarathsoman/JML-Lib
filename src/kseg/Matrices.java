@@ -60,7 +60,7 @@ public class Matrices {
     }
 
     @FunctionalInterface
-    public static interface MatrixElementSupplier<T> {
+    public interface MatrixElementSupplier<T> {
         T getElement(int i, int j);
     }
 }

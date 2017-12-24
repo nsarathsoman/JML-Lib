@@ -88,4 +88,13 @@ public class Matrix {
 
         return elem;
     }
+
+    public void dumpToConsole() {
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                System.out.printf("  " + getElement(i, j) + "  |");
+            }
+            System.out.println();
+        }
+    }
 }
