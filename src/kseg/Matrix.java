@@ -1,5 +1,8 @@
 package kseg;
 
+import kseg.util.Pair;
+import kseg.util.Triplet;
+
 public class Matrix {
 
     private double elements[][];
@@ -89,6 +92,65 @@ public class Matrix {
         return elem;
     }
 
+    public boolean isSquareMatrix() {
+        return r != c ? false : true;
+    }
+
+    public boolean isSymmetric() {
+        if (!isSquareMatrix()) {
+            return false;
+        }
+
+        boolean isSymmetric = true;
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                if (i == j) continue;
+                isSymmetric = isSymmetric && getElement(i, j) == getElement(j, i);
+            }
+        }
+
+        return isSymmetric;
+    }
+
+
+    public Triplet<Double, Integer, Integer> largestOffDiagonalElement() {
+        double largestElem = getElement(0, 1);
+        int iIndex = 0;
+        int jIndex = 1;
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                if (i == j) continue;
+                double currElem = getElement(i, j);
+                if (largestElem < currElem) {
+                    largestElem = currElem;
+                    iIndex = i;
+                    jIndex = j;
+                }
+
+            }
+        }
+
+        return new Triplet<>(largestElem, iIndex, jIndex);
+    }
+
+    public Matrix transpose() {
+
+        double elem[][] = new double[c][r];
+
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                elem[j][i] = getElement(i, j);
+            }
+        }
+
+        return new Matrix(elem);
+
+    }
+
+    public Pair<Matrix, Matrix> evd() {
+        return new EigenValueDecomposition().evd(this);
+    }
+
     public void dumpToConsole() {
         for (int i = 0; i < r; i++) {
             for (int j = 0; j < c; j++) {
@@ -96,5 +158,33 @@ public class Matrix {
             }
             System.out.println();
         }
+    }
+
+    //Static Utilities
+    public static Matrix buildRotationMatrix(double theta, int m, int n) {
+        if (m != n) {
+            throw new RuntimeException("Rotation matrix construction is allowed for square matrixes alone");
+        }
+
+        double elem[][] = new double[m][m];
+        elem[0][0] = Math.cos(theta);
+        elem[0][1] = -Math.sin(theta);
+        elem[1][0] = Math.sin(theta);
+        elem[1][1] = Math.cos(theta);
+
+        if (m > 2) {
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < m; j++) {
+                    if ((i == 0 || i == 1) && j <= 1) continue;
+                    if (i == j) {
+                        elem[i][j] = 1;
+                    } else {
+                        elem[i][j] = 0;
+                    }
+                }
+            }
+        }
+
+        return new Matrix(elem);
     }
 }
