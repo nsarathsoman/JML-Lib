@@ -73,5 +73,9 @@ public class TestMatrix {
         matrix = new Matrix(symetricMatrix).scalarMultiply(0.5);
         matrix.dumpToConsole();
 
+        System.out.println("------Swap Column------");
+        matrix = new Matrix(symetricMatrix).swapColumns(0, 1);
+        matrix.dumpToConsole();
+
     }
 }

@@ -166,6 +166,22 @@ public class Matrix {
         return new Matrix(m);
     }
 
+    public Matrix swapColumns(int maxIndex, int index) {
+        double m[][] = new double[r][c];
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                if(j == maxIndex || j == index) continue;
+                m[i][j] = getElement(i, j);
+            }
+
+            double tmp = getElement(i, maxIndex);
+            m[i][maxIndex] = getElement(i, index);
+            m[i][index] = tmp;
+        }
+
+        return new Matrix(m);
+    }
+
     public void dumpToConsole() {
         for (int i = 0; i < r; i++) {
             for (int j = 0; j < c; j++) {

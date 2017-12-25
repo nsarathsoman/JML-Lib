@@ -25,18 +25,23 @@ public class SingularValueDecomposition {
             }
         }
 
-        Matrix eigeMatrix = new Matrix(eigenMatrixElements);
 
-
-        double maxEigenValue = eigeMatrix.getElement(0, 0);
-        for(int i = 1; i < eigenValuesSquare.getNoOfColumns(); i++) {
-            double val = eigeMatrix.getElement(i, i);
-            if(val > maxEigenValue) {
-                maxEigenValue = val;
+        for (int i = 0; i < eigenMatrixElements[0].length; i++) {
+            double maxEigenValue = eigenMatrixElements[i][i];
+            for (int j = i + 1; j < eigenMatrixElements[0].length; j++) {
+                double val = eigenMatrixElements[j][j];
+                if (val > maxEigenValue) {
+                    eigenMatrixElements[j][j] = maxEigenValue;
+                    eigenMatrixElements[i][i] = val;
+                    v = v.swapColumns(j, i);
+                    maxEigenValue = val;
+                }
             }
         }
 
-        Matrix u = a.multiply(v).scalarMultiply(1/maxEigenValue);
+        Matrix eigeMatrix = new Matrix(eigenMatrixElements);
+
+        Matrix u = a.multiply(v).scalarMultiply(1/eigeMatrix.getElement(0, 0));
 
 
         return new Triplet<>(u, eigeMatrix, v.transpose());

@@ -27,5 +27,10 @@ public class TestSVD {
         svd.getX3().dumpToConsole();
         System.out.println();
 
+        Matrix res =  svd.getX1().multiply(svd.getX2().multiply(svd.getX3()));
+        System.out.println("Result ==");
+        res.dumpToConsole();
+        System.out.println();
+
     }
 }
