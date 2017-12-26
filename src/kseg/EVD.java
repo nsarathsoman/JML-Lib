@@ -5,7 +5,7 @@ import kseg.util.Triplet;
 
 import java.util.Stack;
 
-public class EigenValueDecomposition {
+public class EVD {
 
     public double principalValueOfTheta(Matrix matrix, int i, int k) {
         double aii = matrix.getElement(i, i);

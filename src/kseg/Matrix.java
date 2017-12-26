@@ -157,11 +157,11 @@ public class Matrix {
     }
 
     public Pair<Matrix, Matrix> evd() {
-        return new EigenValueDecomposition().evd(this);
+        return new EVD().evd(this);
     }
 
     public Triplet<Matrix, Matrix, Matrix> svd() {
-        return new SingularValueDecomposition().svd(this);
+        return new SVD().svd(this);
     }
 
     public Matrix scalarMultiply(double scalar) {

@@ -17,7 +17,7 @@ public class TestEVD {
 
         System.out.println("------PrincipalValueOfTheta------");
         Triplet<Double, Integer, Integer> largestOffDiagonalElement = matrix.largestOffDiagonalElement();
-        double theta = new EigenValueDecomposition().principalValueOfTheta(matrix, largestOffDiagonalElement.getX2(), largestOffDiagonalElement.getX3());
+        double theta = new EVD().principalValueOfTheta(matrix, largestOffDiagonalElement.getX2(), largestOffDiagonalElement.getX3());
         System.out.println(theta);
         System.out.println();
 

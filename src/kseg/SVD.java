@@ -3,7 +3,7 @@ package kseg;
 import kseg.util.Pair;
 import kseg.util.Triplet;
 
-public class SingularValueDecomposition {
+public class SVD {
     public Triplet<Matrix, Matrix, Matrix> svd(Matrix a) {
         Matrix aT = a.transpose();
         Matrix aTa = aT.multiply(a);
