@@ -18,16 +18,16 @@ public class Matrix {
         return elements[i][j];
     }
 
-    public int getNoOfRows() {
+    public int rowDimensions() {
         return r;
     }
 
-    public int getNoOfColumns() {
+    public int colDimensions() {
         return c;
     }
 
     public Matrix add(Matrix that) {
-        if (r != that.getNoOfRows() || c != that.getNoOfColumns())
+        if (r != that.rowDimensions() || c != that.colDimensions())
             throw new RuntimeException("Matrix size mismatch, cannot proceed with addition");
 
         double mat[][] = new double[r][c];
@@ -42,7 +42,7 @@ public class Matrix {
     }
 
     public Matrix substract(Matrix that) {
-        if (r != that.getNoOfRows() || c != that.getNoOfColumns())
+        if (r != that.rowDimensions() || c != that.colDimensions())
             throw new RuntimeException("Matrix size mismatch, cannot proceed with substraction");
 
         double mat[][] = new double[r][c];
@@ -57,14 +57,14 @@ public class Matrix {
     }
 
     public Matrix multiply(Matrix that) {
-        if (c != that.getNoOfRows())
+        if (c != that.rowDimensions())
             throw new RuntimeException("Matrix size mismatch this.c!=that.r, cannot proceed with multiplication");
 
-        double result[][] = new double[r][that.getNoOfColumns()];
+        double result[][] = new double[r][that.colDimensions()];
 
         for (int i = 0; i < r; i++) {
             double row[] = getRow(i);
-            for (int j = 0; j < that.getNoOfColumns(); j++) {
+            for (int j = 0; j < that.colDimensions(); j++) {
                 double thatCol[] = that.getColumn(j);
                 result[i][j] = Vectors.dot(row, thatCol);
             }
@@ -114,9 +114,18 @@ public class Matrix {
 
 
     public Triplet<Double, Integer, Integer> largestOffDiagonalElement() {
-        double largestElem = getElement(0, 1);
+        double largestElem = 0;
         int iIndex = 0;
         int jIndex = 1;
+        if(1 >= c) {
+            largestElem = getElement(1, 0);
+            iIndex = 1;
+            jIndex = 0;
+        } else {
+            largestElem = getElement(0, 1);
+            iIndex = 0;
+            jIndex = 1;
+        }
         for (int i = 0; i < r; i++) {
             for (int j = 0; j < c; j++) {
                 if (i == j) continue;
@@ -177,6 +186,51 @@ public class Matrix {
             double tmp = getElement(i, maxIndex);
             m[i][maxIndex] = getElement(i, index);
             m[i][index] = tmp;
+        }
+
+        return new Matrix(m);
+    }
+
+    public Matrix toOrthoNormal() {
+        //TODO add orthogonality check
+        double m[][] = new double[r][c];
+        for (int j = 0; j < c; j++) {
+            double column[] = getColumn(j);
+            double unitVector[] = Vectors.toUnitVector(column);
+            for (int i = 0; i < r; i++) {
+                m[i][j] = unitVector[i];
+            }
+        }
+
+        return new Matrix(m);
+    }
+
+    public Matrix reshape(int row, int col) {
+        if(row > r || col > c) throw new RuntimeException("Dimesions should match");
+        double m[][] = new double[r][c];
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                m[i][j] = getElement(i, j);
+            }
+        }
+
+        return new Matrix(m);
+    }
+
+    public Matrix roundOff() {
+        Matrix b = this;
+        double epsilon = 0.0000001;
+
+        double m[][] = new double[b.rowDimensions()][b.colDimensions()];
+        for (int i = 0; i < b.rowDimensions(); i++) {
+            for(int j = 0; j < b.colDimensions(); j ++) {
+                double element = b.getElement(i, j);
+                if(Math.abs(element) < epsilon) {
+                    m[i][j] = 0;
+                } else {
+                    m[i][j] = element;
+                }
+            }
         }
 
         return new Matrix(m);

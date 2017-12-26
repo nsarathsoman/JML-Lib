@@ -77,5 +77,13 @@ public class TestMatrix {
         matrix = new Matrix(symetricMatrix).swapColumns(0, 1);
         matrix.dumpToConsole();
 
+        System.out.println("------OrthoNormal------");
+        double orthogonal[][] = new double[][]{
+            {3, 4},
+            {4, 3}
+        };
+        matrix = new Matrix(orthogonal).toOrthoNormal();
+        matrix.dumpToConsole();
+
     }
 }

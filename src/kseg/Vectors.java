@@ -1,7 +1,9 @@
 package kseg;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 
 public class Vectors {
@@ -95,8 +97,20 @@ public class Vectors {
                 .orElse(0d);
     }
 
+    public static  double sumOfSquares(double x[]) {
+        return DoubleStream.of(x)
+                .map(xi -> Math.pow(xi, 2))
+                .reduce((x1, x2) -> x1 + x2)
+                .orElse(0d);
+    }
+
     public static <T extends Number> double magnitude(List<T> x) {
 
+        double sumOfSquares = sumOfSquares(x);
+        return Math.sqrt(sumOfSquares);
+    }
+
+    public static double magnitude(double x[]) {
         double sumOfSquares = sumOfSquares(x);
         return Math.sqrt(sumOfSquares);
     }
@@ -121,4 +135,11 @@ public class Vectors {
         return Math.sqrt(sumOfSquares(subtract(x, y)));
     }
 
+    public static double[] toUnitVector(double[] column) {
+        double magnitude = magnitude(column);
+
+        return 0 == magnitude ? column : DoubleStream.of(column)
+                .map(c -> c / magnitude)
+                .toArray();
+    }
 }

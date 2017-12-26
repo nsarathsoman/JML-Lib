@@ -35,23 +35,19 @@ public class EigenValueDecomposition {
 
     public Pair<Matrix, Matrix> evd(final Matrix matrix) {
 
+        //TODO add check for symmetric property
+
         Stack<Matrix> rotationMatrices = new Stack<>();
         Matrix b = matrix;
 
         int iteration = 0;
 
-        while (iteration < matrix.getNoOfColumns()) {
+        while (iteration < matrix.colDimensions() * 5) {
             Matrix s = buildSMatrix(b);
-            System.out.println("S");
-            s.dumpToConsole();
-            System.out.println();
             Matrix sT = s.transpose();
             rotationMatrices.push(s);
             b = sT.multiply(b.multiply(s));
             iteration++;
-            System.out.println("Iteration " + iteration);
-            b.dumpToConsole();
-            System.out.println();
         }
 
         Matrix eigenVectors = rotationMatrices.pop();
@@ -60,39 +56,21 @@ public class EigenValueDecomposition {
             eigenVectors = rotationMatrices.pop().multiply(eigenVectors);
         }
 
-        b = roundOff(b);
-        eigenVectors = roundOff(eigenVectors);
+        b = b.roundOff();
+        eigenVectors = eigenVectors.roundOff();
 
         return new Pair<>(b, eigenVectors);
 
-    }
-
-    private Matrix roundOff(Matrix b) {
-        double epsilon = 0.0000001;
-
-        double m[][] = new double[b.getNoOfRows()][b.getNoOfColumns()];
-        for (int i = 0; i < b.getNoOfRows(); i++) {
-            for(int j = 0; j < b.getNoOfColumns(); j ++) {
-                double element = b.getElement(i, j);
-                if(Math.abs(element) < epsilon) {
-                    m[i][j] = 0;
-                } else {
-                    m[i][j] = element;
-                }
-            }
-        }
-
-        return new Matrix(m);
     }
 
     private Matrix buildSMatrix(Matrix matrix) {
         Triplet<Double, Integer, Integer> largestOffDiagonal = matrix.largestOffDiagonalElement();
         double theta = principalValueOfTheta(matrix, largestOffDiagonal.getX2(), largestOffDiagonal.getX3());
 
-        double s[][] = new double[matrix.getNoOfRows()][matrix.getNoOfColumns()];
+        double s[][] = new double[matrix.rowDimensions()][matrix.colDimensions()];
 
-        for (int i = 0; i < matrix.getNoOfRows(); i++) {
-            for (int j = 0; j < matrix.getNoOfColumns(); j++) {
+        for (int i = 0; i < matrix.rowDimensions(); i++) {
+            for (int j = 0; j < matrix.colDimensions(); j++) {
                 if (i == largestOffDiagonal.getX2() && j == largestOffDiagonal.getX2()) {
                     s[i][j] = Math.cos(theta);
                 } else if (i == largestOffDiagonal.getX2() && j == largestOffDiagonal.getX3()) {

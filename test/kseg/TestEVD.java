@@ -3,7 +3,7 @@ package kseg;
 import kseg.util.Pair;
 import kseg.util.Triplet;
 
-public class TestEigneValueDecomposition {
+public class TestEVD {
 
     public static void main(String[] args) {
 
@@ -50,5 +50,18 @@ public class TestEigneValueDecomposition {
         valueVector.getLeft().dumpToConsole();
         System.out.println();
         valueVector.getRight().dumpToConsole();
+
+        System.out.println("------EVD IV------");
+        double elements[][] = {
+                {2, -2, 1},
+                {5, 1, 4},
+        };
+        matrix = new Matrix(elements);
+        matrix = matrix.transpose().multiply(matrix);
+        valueVector = matrix.evd();
+        valueVector.getLeft().dumpToConsole();
+        System.out.println();
+        valueVector.getRight().dumpToConsole();
+
     }
 }
