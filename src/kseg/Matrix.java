@@ -3,6 +3,13 @@ package kseg;
 import kseg.util.Pair;
 import kseg.util.Triplet;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 public class Matrix {
 
     private double elements[][];
@@ -273,4 +280,18 @@ public class Matrix {
         return new Matrix(elem);
     }
 
+    public double[] getColumn(int[] ovLapItemIndices, int j) {
+        List<Integer> itemIndices = IntStream.of(ovLapItemIndices)
+                .boxed()
+                .collect(Collectors.toList());
+        double el[] = new double[ovLapItemIndices.length];
+        int elIndex = 0;
+        for (int i = 0; i < r; i++) {
+            if(itemIndices.contains(i)) {
+                el[elIndex++] = getElement(i, j);
+            }
+        }
+
+        return el;
+    }
 }

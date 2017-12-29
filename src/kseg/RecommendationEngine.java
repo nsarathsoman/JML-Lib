@@ -43,10 +43,36 @@ public class RecommendationEngine {
     public static final ScoreEstimater stdScoreEstimator = new ScoreEstimater() {
         @Override
         public double estimate(Matrix matrix, int userIndex, Vectors.DistanceAlgorithm similarityAlgorithm, int itemIndex) {
-            return 0;
+            double similarityTotal = 0;
+            double ratSimilarityTotal = 0;
+            for(int j = 0; j < matrix.colDimensions(); j++) {
+                double userRating = matrix.getElement(userIndex, j);
+                if(0 == userRating) continue;
+                int ovLapItemIndices[] = findOverLappingIndices(matrix.getColumn(itemIndex), matrix.getColumn(j));
+
+                double similarity = 0;
+
+                if(0 == ovLapItemIndices.length) {
+                    similarity = 0;
+                } else {
+                    similarity = Vectors.similarity(matrix.getColumn(ovLapItemIndices, itemIndex), matrix.getColumn(ovLapItemIndices, j), similarityAlgorithm);
+                }
+
+                similarityTotal += similarity;
+
+                ratSimilarityTotal += similarity * userRating;
+
+            }
+
+            return 0 == similarityTotal ? 0 : ratSimilarityTotal/similarityTotal;
         }
     };
 
+    private static int[] findOverLappingIndices(double[] column, double[] column1) {
+        return IntStream.range(0, column.length)
+                .filter(i -> column[i] > 0 && column1[i] > 0)
+                .toArray();
+    }
 
 
     public static class Builder {
