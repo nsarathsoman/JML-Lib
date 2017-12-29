@@ -42,7 +42,7 @@ public class EVD {
 
         int iteration = 0;
 
-        while (iteration < matrix.colDimensions() * 5) {
+        while (iteration < matrix.colDimensions()) {
             Matrix s = buildSMatrix(b);
             Matrix sT = s.transpose();
             rotationMatrices.push(s);
@@ -56,8 +56,8 @@ public class EVD {
             eigenVectors = rotationMatrices.pop().multiply(eigenVectors);
         }
 
-        b = b.roundOff();
-        eigenVectors = eigenVectors.roundOff();
+//        b = b.roundOff();
+//        eigenVectors = eigenVectors.roundOff();
 
         return new Pair<>(b, eigenVectors);
 

@@ -5,6 +5,9 @@ import kseg.util.Triplet;
 
 public class SVD {
     public Triplet<Matrix, Matrix, Matrix> svd(Matrix a) {
+        if (true)
+            throw new UnsupportedOperationException("Operation is unsupported");
+
         Matrix aT = a.transpose();
         Matrix aTa = aT.multiply(a);
 

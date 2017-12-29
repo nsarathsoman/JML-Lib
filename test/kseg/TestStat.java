@@ -88,5 +88,9 @@ public class TestStat {
         double correlationZer = Stat.correlation(Arrays.asList(1,1), Arrays.asList(1,1));
         System.out.println(correlationZer);
         System.out.println();
+
+        System.out.println("------Correlation-2 x 1------");
+        System.out.println(Stat.correlation(Arrays.asList(4,2), Arrays.asList(10,20)));
+        System.out.println();
     }
 }

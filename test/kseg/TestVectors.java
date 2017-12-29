@@ -30,7 +30,7 @@ public class TestVectors {
         peek(scalarMultiplied);
 
         System.out.println("------Mean------");
-        double mean = Vectors.mean(Arrays.asList(1,2,3,4,5,6,7,8,9,10));
+        double mean = Vectors.avg(Arrays.asList(1,2,3,4,5,6,7,8,9,10));
         System.out.println(mean);
         System.out.println();
 

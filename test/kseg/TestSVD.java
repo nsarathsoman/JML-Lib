@@ -16,19 +16,19 @@ public class TestSVD {
 //                {0, 2, 0, 0, 0}
 //        };
 
-        double elements[][] = {
-                {1, 0, 0, 0, 2},
-                {0, 0, 3, 0, 0},
-                {0, 0, 0, 0, 0},
-                {0, 2, 0, 0, 0},
-                {1, 4, 3, 0, 3},
-                {4, 4, 3, 0, 3}
-        };
-
 //        double elements[][] = {
-//                {2, -2, 1},
-//                {5, 1, 4},
+//                {1, 0, 0, 0, 2},
+//                {0, 0, 3, 0, 0},
+//                {0, 0, 0, 0, 0},
+//                {0, 2, 0, 0, 0},
+//                {1, 4, 3, 0, 3},
+//                {4, 4, 3, 0, 3}
 //        };
+
+        double elements[][] = {
+                {2, -2, 1},
+                {5, 1, 4},
+        };
 
         Matrix matrix = new Matrix(elements);
 
@@ -39,7 +39,7 @@ public class TestSVD {
         System.out.println();
 
         System.out.println("u*uT");
-        svd.getX1().multiply(svd.getX1().transpose()).roundOff().dumpToConsole();
+        svd.getX1().multiply(svd.getX1().transpose()).dumpToConsole();
         System.out.println();
 
         System.out.println("SIG");
@@ -51,7 +51,7 @@ public class TestSVD {
         System.out.println();
 
         System.out.println("v*vT");
-        svd.getX3().multiply(svd.getX3().transpose()).roundOff().dumpToConsole();
+        svd.getX3().multiply(svd.getX3().transpose()).dumpToConsole();
         System.out.println();
 
         System.out.println("Result ==");

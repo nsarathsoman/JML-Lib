@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 
 import static java.util.stream.Collectors.*;
 import static kseg.Vectors.dot;
@@ -16,7 +17,11 @@ public class Stat {
 
     //Measures of central tendencies
     public static <T extends Number> double mean(List<T> vector) {
-        return Vectors.mean(vector);
+        return Vectors.avg(vector);
+    }
+
+    public static double mean(double[] vector) {
+        return Vectors.avg(vector);
     }
 
     public static <T extends Number> double median(List<T> vector) {
@@ -81,11 +86,26 @@ public class Stat {
                 .collect(Collectors.toList());
     }
 
+    public static double[] deviationFromMean(double[] vector) {
+        double mean = mean(vector);
+        return DoubleStream.of(vector)
+                .map(t -> t - mean)
+                .toArray();
+    }
+
     public static <T extends Number> double variance(List<T> vector) {
         return sumOfSquares(deviationFromMean(vector)) / (vector.size() - 1);
     }
 
+    public static double variance(double[] vector) {
+        return sumOfSquares(deviationFromMean(vector)) / (vector.length - 1);
+    }
+
     public static <T extends Number> double stdDeviation(List<T> vector) {
+        return Math.sqrt(variance(vector));
+    }
+
+    public static double stdDeviation(double[] vector) {
         return Math.sqrt(variance(vector));
     }
 
@@ -104,8 +124,26 @@ public class Stat {
         return dot(deviationFromMean(x), deviationFromMean(y)) / (x.size() - 1);
     }
 
+    //    Large +ve covariance means x tends to be large when y is large and
+    //    small -ve covariance means x tends to be small when y tends to be large
+    //    its hard to define the meaning of a particular covariance number
+
+    public static double covariance(double[] x, double[] y) {
+        return dot(deviationFromMean(x), deviationFromMean(y)) / (x.length - 1);
+    }
+
     //    Correlation is always b/w -1(perfect anti correlation) and 1(perfect correlation) and is unitless
     public static <T extends Number> double correlation(List<T> x, List<T> y) {
+        double stdX = stdDeviation(x);
+        double stdY = stdDeviation(y);
+        if(stdX == 0 || stdY == 0) {
+            return 0;
+        }
+        return covariance(x, y) / stdX / stdY;
+    }
+
+    //    Correlation is always b/w -1(perfect anti correlation) and 1(perfect correlation) and is unitless
+    public static double correlation(double[] x, double[] y) {
         double stdX = stdDeviation(x);
         double stdY = stdDeviation(y);
         if(stdX == 0 || stdY == 0) {
