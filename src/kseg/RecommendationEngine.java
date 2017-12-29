@@ -2,6 +2,7 @@ package kseg;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class RecommendationEngine {
 
@@ -20,7 +21,23 @@ public class RecommendationEngine {
     }
 
     public List recommend() {
-        return new ArrayList();
+        int unRatedItems[] = findUnratedItems(matrix, userIndex);
+
+        if(0 == unRatedItems.length) {
+            return new ArrayList();
+        }
+
+        for(int unratedItemIndex : unRatedItems) {
+            double score = scoreEstimator.estimate(matrix, userIndex, similarityAlgorithm, unratedItemIndex);
+            System.out.println("Score " + unratedItemIndex + ": " + score);
+        }
+    }
+
+    private int[] findUnratedItems(Matrix matrix, int userIndex) {
+        double userItems[] = matrix.getRow(userIndex);
+        return IntStream.range(0, userItems.length)
+                .filter(i -> userItems[i] != 0)
+                .toArray();
     }
 
     public static final ScoreEstimater stdScoreEstimator = new ScoreEstimater() {
